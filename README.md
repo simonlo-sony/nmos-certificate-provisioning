@@ -1,26 +1,67 @@
 # AMWA BCP-003-03: Certificate Provisioning in NMOS Systems \[Work In Progress\]
 
-[![Build Status](https://travis-ci.com/AMWA-TV/nmos-certificate-provisioning.svg?branch=v1.0-dev)](https://travis-ci.com/AMWA-TV/nmos-certificate-provisioning)
+## GitHub Pages documentation
 
-This repository contains details of this AMWA Best Current Practice for how to provision certificates in NMOS Systems.
+If you are reading this you are on the gh-pages branch, which is used to generate the documentation from development branches, and from releases.  These are served at <https://amwa-tv.github.io/nmos-certificate-provisioning>.
 
-## Getting started
+## Generating the documentation
 
-Readers are advised to be familiar with:
+> This is for a manual build -- normally this happens under Continous Integration
 
-- The [overview of Networked Media Open Specifications](https://amwa-tv.github.io/nmos)
-- The [overview of Best Practices for NMOS Security](https://amwa-tv.github.io/nmos-api-security)
+Clone this repo (if you haven't already), checkout the gh-pages branch:
 
-Readers should then read the [Best Common Practice document](docs/1.0.%20Certificate%20Provisioning.md)
+``git checkout gh-pages``
 
-> HTML rendered versions of all NMOS Specifications are available on the [NMOS GitHub pages](https://amwa-tv.github.io/nmos)
+Install build tools
 
-## Contents
+``make distclean``
+``make build-tools``
 
-- [README.md](README.md) -- This file
-- [docs/1.0. Certificate Provisioning.md](docs/1.0.%20Certificate%20Provisioning.md) -- Best Current Practice document
-- [CHANGELOG.md](CHANGELOG.md) -- Version history
-- [CONTRIBUTING.md](CONTRIBUTING.md) -- information about contributing to the Specification
-- [LICENSE](LICENSE) -- Licenses for software and text documents
-- [NOTICE](NOTICE) -- Disclaimer
-- [Makefile](Makefile) -- Makefile for Continuous Integration
+Make the documentation:
+
+``make``
+
+This runs scripts to:
+
+- clone the repo from AMWA's GitHub
+- for each branch and release (with some exceptions) extract documentation, APIs and schemas
+  - making HTML renders of the RAML APIs
+- for each branch and release create indexes for the documentation, APIs and schemas
+- make links to what will later be the HTML renders of the Markdown documentation
+
+## Updating AMWA's GitHub
+
+You can push the updated documentation to AMWA's GitHub with.
+
+``make push``
+
+Alternatively commit and push manually for more control of the commit message.
+
+Admins must be to do this after merging PRs etc (until this is automated with CircleCI at some point).
+
+This then triggers a build of the GitHub Pages. This happens on GitHub's servers, using Jekyll to render the HTML.  This includes rendering the Markdown content, but we have to do the RAML ourselves.  
+
+To clean up:
+
+``make clean``
+
+To also remove the build tools:
+
+``make distclean``
+
+## Serving pages locally
+
+See also <https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll>
+
+Install Bundler and Jekyll - af you have Ruby installed then:
+
+``gem install bundler``
+
+``bundle install``
+
+Run server with:
+
+``make server``
+
+And browse to the indicated page
+
